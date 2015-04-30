@@ -4,33 +4,35 @@ RSpec.describe CustomerRepository do
   include RepoHelpers
 
   describe 'can find customers by' do
+    def assert_finds_by(attribute, has:, missing:)
+      attr_hashes = has.map { |val| {attribute => val} }
+      repo        = repo_for attr_hashes
+
+      has.each do |expected|
+        record = repo.__send__ "find_by_#{attribute}", expected
+        actual = record.__send__ attribute
+        expect(actual).to eq expected
+      end
+
+      missing.each do |val|
+        record = repo.__send__ "find_by_#{attribute}", val
+        expect(record).to eq nil
+      end
+    end
+
     specify 'id' do
-      repo = repo_for([{id: 5}, {id: 6}])
-      expect(repo.find_by_id(5).id).to eq 5
-      expect(repo.find_by_id(6).id).to eq 6
-      expect(repo.find_by_id 7    ).to eq nil
+      assert_finds_by :id, has: [5, 6], missing: [7]
     end
 
     specify 'first_name' do
-      repo = repo_for([
-        {first_name: 'Jack'},
-        {first_name: 'Jill'},
-      ])
-      expect(repo.find_by_first_name("Jack").first_name).to eq "Jack"
-      expect(repo.find_by_first_name("Jill").first_name).to eq "Jill"
-      expect(repo.find_by_first_name "Jan"             ).to eq nil
+      assert_finds_by :first_name, has: %w[Jack Jill], missing: ['Jan']
     end
 
     specify 'last_name' do
-      repo = repo_for([
-        {last_name: 'Wilson'},
-        {last_name: 'Park'},
-      ])
-      expect(repo.find_by_last_name("Wilson").last_name).to eq "Wilson"
-      expect(repo.find_by_last_name("Park"  ).last_name).to eq "Park"
-      expect(repo.find_by_last_name "Turing"           ).to eq nil
+      assert_finds_by :last_name, has: %w[wilson Park], missing: ['Turing']
     end
   end
+
 
   describe 'can find all customers by' do
     specify 'first_name'
