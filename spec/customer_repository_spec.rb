@@ -35,7 +35,26 @@ RSpec.describe CustomerRepository do
 
 
   describe 'can find all customers by' do
-    specify 'first_name'
-    specify 'last_name'
+    specify 'first_name' do
+      repo = repo_for [
+        {id: 1, first_name: 'Jack'},
+        {id: 2, first_name: 'Jill'},
+        {id: 3, first_name: 'Jack'},
+      ]
+      expect(repo.find_all_by_first_name('Jack').map(&:id)).to eq [1, 3]
+      expect(repo.find_all_by_first_name('Jill').map(&:id)).to eq [2]
+      expect(repo.find_all_by_first_name('Jan').map(&:id)).to eq []
+    end
+
+    specify 'last_name' do
+      repo = repo_for [
+        {id: 1, last_name: 'Pierce'},
+        {id: 2, last_name: 'Pierce'},
+        {id: 3, last_name: 'Obama'},
+      ]
+      expect(repo.find_all_by_last_name('Pierce').map(&:id)).to eq [1, 2]
+      expect(repo.find_all_by_last_name('Obama').map(&:id)).to eq [3]
+      expect(repo.find_all_by_last_name('Eastwood').map(&:id)).to eq []
+    end
   end
 end
