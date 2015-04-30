@@ -19,10 +19,6 @@ class Repository
     all.sample
   end
 
-  def find_by_id(id)
-    find_by id: id
-  end
-
   include Enumerable
   def each(&block)
     all.each(&block)

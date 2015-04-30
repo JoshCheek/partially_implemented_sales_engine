@@ -6,6 +6,10 @@ class CustomerRepository < Repository
     Customer
   end
 
+  def find_by_id(id)
+    find_by id: id
+  end
+
   def find_by_last_name(last_name)
     find_by last_name: last_name
   end

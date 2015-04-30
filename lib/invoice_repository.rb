@@ -2,14 +2,18 @@ require_relative 'invoice'
 require_relative 'repository'
 
 class InvoiceRepository < Repository
-
   attr_accessor :all
+
   def initialize(engine, attr_hashes)
     self.all = attr_hashes.map { |hash| Invoice.new engine, hash }
   end
 
   def inspect
     'whatev'
+  end
+
+  def find_by_id(id)
+    find_by id: id
   end
 
   def find_all_by_customer_id(customer_id)
