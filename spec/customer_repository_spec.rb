@@ -4,22 +4,6 @@ RSpec.describe CustomerRepository do
   include RepoHelpers
 
   describe 'can find customers by' do
-    def assert_finds_by(attribute, has:, missing:)
-      attr_hashes = has.map { |val| {attribute => val} }
-      repo        = repo_for attr_hashes
-
-      has.each do |expected|
-        record = repo.__send__ "find_by_#{attribute}", expected
-        actual = record.__send__ attribute
-        expect(actual).to eq expected
-      end
-
-      missing.each do |val|
-        record = repo.__send__ "find_by_#{attribute}", val
-        expect(record).to eq nil
-      end
-    end
-
     specify 'id' do
       assert_finds_by :id, has: [5, 6], missing: [7]
     end
