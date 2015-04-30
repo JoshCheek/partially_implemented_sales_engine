@@ -1,6 +1,18 @@
 require 'spec_helper'
 
 RSpec.describe Repository do
+  class MockRecord < Record
+    attribute :a
+  end
+
+  class MockRepository < Repository
+    def self.record_class
+      MockRecord
+    end
+  end
+
+  include RepoHelpers
+
   def repo_for(records)
     super records, MockRepository
   end
