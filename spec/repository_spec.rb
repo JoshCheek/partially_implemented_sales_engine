@@ -1,18 +1,8 @@
 require 'spec_helper'
 
 RSpec.describe Repository do
-  class MockRecord < Record
-    attribute :a
-  end
-
-  class MockRepository < Repository
-    def self.record_class
-      MockRecord
-    end
-  end
-
   def repo_for(records)
-    MockRepository.new(:fake_engine, records)
+    super records, MockRepository
   end
 
   it 'can be initialized with an array of hashes' do
