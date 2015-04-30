@@ -23,6 +23,11 @@ class Repository
     find_by id: id
   end
 
+  include Enumerable
+  def each(&block)
+    all.each(&block)
+  end
+
   private
 
   def find_by(attributes)
