@@ -1,17 +1,16 @@
 require 'csv'
 require_relative 'customer_repository'
 require_relative 'invoice_repository'
+require_relative 'simple_sales_engine'
 
-class SalesEngine
-  attr_reader :customer_repository, :invoice_repository
-
+class SalesEngine < SimpleSalesEngine
   def initialize(dir)
     @dir = dir
   end
 
   def startup
-    @customer_repository = CustomerRepository.new self, data_for('customers')
-    @invoice_repository  = InvoiceRepository.new  self, data_for('invoices')
+    super customers: data_for('customers'),
+          invoices:  data_for('invoices')
   end
 
   private

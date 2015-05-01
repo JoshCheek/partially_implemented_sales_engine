@@ -16,7 +16,6 @@ RSpec.describe Customer do
     assert_attribute :last_name, 'Wonka', 'Wonka'
   end
 
-  require_relative '../lib/simple_sales_engine'
   def engine_for(repo_data)
     SimpleSalesEngine.new(repo_data).startup
   end
