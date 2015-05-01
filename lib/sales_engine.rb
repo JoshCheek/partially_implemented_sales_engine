@@ -1,6 +1,4 @@
 require 'csv'
-require_relative 'customer_repository'
-require_relative 'invoice_repository'
 require_relative 'simple_sales_engine'
 
 class SalesEngine < SimpleSalesEngine

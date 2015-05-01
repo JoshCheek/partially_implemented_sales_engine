@@ -36,3 +36,9 @@ module RepoHelpers
     end
   end
 end
+
+module SalesEngineHelpers
+  def engine_for(repo_data)
+    SimpleSalesEngine.new(repo_data).startup
+  end
+end
