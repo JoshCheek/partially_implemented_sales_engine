@@ -16,5 +16,24 @@ RSpec.describe Customer do
     assert_attribute :last_name, 'Wonka', 'Wonka'
   end
 
-  it 'gets its invoices from the engine'
+  require_relative '../lib/simple_sales_engine'
+  def engine_for(repo_data)
+    SimpleSalesEngine.new(repo_data).startup
+  end
+
+  describe 'relationships' do
+    it 'allows access to its invoices' do
+      engine = engine_for({
+        customers: [{id: 1}, {id: 2}],
+        invoices:  [
+          {id: 100, customer_id: 2},
+          {id: 200, customer_id: 1},
+          {id: 300, customer_id: 2},
+        ],
+      })
+      customer1, customer2 = engine.customer_repository.all
+      expect(customer1.invoices.map &:id).to eq [200]
+      expect(customer2.invoices.map &:id).to eq [100, 300]
+    end
+  end
 end
